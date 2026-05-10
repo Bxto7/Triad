@@ -312,7 +312,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    const API = 'http://localhost:3000/api/cotizar';
+    const API = 'https://triad-production.up.railway.app/api/cotizar';
     let allData = [];
 
     async function loadData() {
@@ -457,7 +457,7 @@ async function doLogin() {
     const errorDiv = document.getElementById('login-error');
 
     try {
-        const res = await fetch('http://localhost:3000/api/auth/login', {
+        const res = await fetch('https://triad-production.up.railway.app/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ usuario, password })

@@ -98,7 +98,7 @@
                         accion_tomada: document.getElementById('r_accionTomada').value
                     };
                     try {
-                        const res = await fetch('http://localhost:3000/api/reclamaciones', {
+                        const res = await fetch('https://triad-production.up.railway.app/api/reclamaciones', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(data)

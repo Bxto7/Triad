@@ -110,7 +110,7 @@
                                 mensaje: document.getElementById('cot_mensaje').value
                             };
                             try {
-                                const res = await fetch('http://localhost:3000/api/cotizar', {
+                                const res = await fetch('https://triad-production.up.railway.app/api/cotizar', {
                                     method: 'POST',
                                     headers: { 'Content-Type': 'application/json' },
                                     body: JSON.stringify(data)
