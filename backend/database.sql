@@ -1,9 +1,3 @@
-CREATE DATABASE IF NOT EXISTS triad_db
-    CHARACTER SET utf8mb4
-    COLLATE utf8mb4_unicode_ci;
-
-USE triad_db;
-
 CREATE TABLE IF NOT EXISTS cotizaciones (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombres VARCHAR(150) NOT NULL,
