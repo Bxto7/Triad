@@ -10,6 +10,40 @@ const authRoutes = require('./routes/auth');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+async function initDB() {
+    const conn = await pool.getConnection();
+    await conn.execute(`
+        CREATE TABLE IF NOT EXISTS cotizaciones (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nombres VARCHAR(150) NOT NULL,
+            telefono VARCHAR(20) NOT NULL,
+            correo VARCHAR(150) NOT NULL,
+            mensaje TEXT,
+            fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+    await conn.execute(`
+        CREATE TABLE IF NOT EXISTS reclamaciones (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            nombre VARCHAR(100) NOT NULL,
+            apellido VARCHAR(100) NOT NULL,
+            tipo_documento ENUM('DNI', 'Carnet de Extranjería', 'Pasaporte') DEFAULT 'DNI',
+            num_documento VARCHAR(20) NOT NULL,
+            correo VARCHAR(150) NOT NULL,
+            celular VARCHAR(20) NOT NULL,
+            tipo_bien ENUM('Producto', 'Servicio') DEFAULT 'Servicio',
+            descripcion_bien TEXT,
+            tipo_reclamo ENUM('Reclamo', 'Queja') DEFAULT 'Reclamo',
+            detalle_reclamo TEXT,
+            accion_tomada TEXT,
+            estado ENUM('Pendiente', 'En revisión', 'Resuelto') DEFAULT 'Pendiente',
+            fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+    conn.release();
+    console.log('Tablas inicializadas correctamente');
+}
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +61,11 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Servidor TRIAD corriendo en http://localhost:${PORT}`);
+initDB().then(() => {
+    app.listen(PORT, () => {
+        console.log(`Servidor TRIAD corriendo en http://localhost:${PORT}`);
+    });
+}).catch(err => {
+    console.error('Error inicializando BD:', err);
+    process.exit(1);
 });
