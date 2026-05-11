@@ -61,11 +61,12 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
-initDB().then(() => {
-    app.listen(PORT, () => {
-        console.log(`Servidor TRIAD corriendo en http://localhost:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Servidor TRIAD corriendo en puerto ${PORT}`);
+    console.log(`DB_HOST: ${process.env.DB_HOST}`);
+    console.log(`DB_PORT: ${process.env.DB_PORT}`);
+    console.log(`DB_NAME: ${process.env.DB_NAME}`);
+    initDB().catch(err => {
+        console.error('Error inicializando BD:', err.message);
     });
-}).catch(err => {
-    console.error('Error inicializando BD:', err);
-    process.exit(1);
 });
